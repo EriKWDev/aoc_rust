@@ -2,6 +2,7 @@ use chrono::prelude::*;
 use std::io::Write;
 
 const SECRET: &str = include_str!("SECRET");
+
 fn main() {
     let now = chrono::Utc::now().date_naive();
 
@@ -26,6 +27,10 @@ fn main() {
 
         let response = ureq::get(&url)
             .set("Cookie", &format!("session={}", SECRET))
+            .set(
+                "User-Agent",
+                "github.com/ErikWDev/aoc_rust by ErikWDev@gmail.com",
+            )
             .call()
             .expect("Could not call adventofcode.com. Is the provided SECRET correct?");
 
