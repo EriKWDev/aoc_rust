@@ -13,18 +13,21 @@ pub fn parse_data(input: utils::Input) -> Data {
         .map(|line| line.unwrap())
         .filter_map(|line| {
             let line = line.trim();
-
-            if line == "" {
+            if line.is_empty() {
                 Some(current_elf.drain(..).collect())
             } else {
                 let value = line.parse::<usize>().unwrap();
                 current_elf.push(value);
+
                 None
             }
         })
-        .collect::<Data>();
+        .collect::<Vec<_>>();
 
-    result.push(current_elf);
+    if !current_elf.is_empty() {
+        result.push(current_elf);
+    }
+
     result
 }
 
@@ -49,10 +52,10 @@ pub fn part_2(input: utils::Input) -> String {
         .collect::<Vec<_>>();
 
     new_vals.sort();
-    new_vals.reverse();
 
-    let (a, b, c) = (new_vals[0], new_vals[1], new_vals[2]);
-    format!("{}", a + b + c)
+    let answer = new_vals.iter().rev().take(3).sum::<usize>();
+
+    format!("{}", answer)
 }
 
 fn run_1() {
