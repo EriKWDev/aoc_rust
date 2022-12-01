@@ -1,0 +1,20 @@
+[package]
+name = "solutions"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+utils = { workspace = true }
+
+[build-dependencies]
+chrono = "0.4.23"
+ureq = "*"
+
+[[bin]]
+name = "2022_01"
+path = "src/2022_01.rs"
+
+[[bin]]
+name = "template"
+path = "src/template.rs"
+

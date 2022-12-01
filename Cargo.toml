@@ -1,0 +1,11 @@
+[workspace]
+members = [
+  "utils",
+  "solutions",
+]
+
+[workspace.dependencies]
+utils = { path = "utils" }
+
+[profile.dev]
+opt-level = 2
