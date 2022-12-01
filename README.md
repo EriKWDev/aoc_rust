@@ -2,6 +2,10 @@
 
 To run a specific day, do
 ```console
+cargo run --release --bin {YEAR}_{DAY}
+```
+..or, using the run.sh script which stats cargo-watch:
+```console
 ./run.sh {YEAR}_{DAY}
 ```
 
