@@ -21,7 +21,7 @@ fn main() {
     let input_file_path_cache = format!("{}/{}", input_date_folder, input_name_cache);
     let cache_file_path = std::path::Path::new(&input_file_path_cache);
 
-    if !cache_file_path.exists() {
+    let cache_content = if !cache_file_path.exists() {
         let url = format!("https://adventofcode.com/{}/day/{}/input", year, day);
 
         let response = ureq::get(&url)
@@ -35,14 +35,24 @@ fn main() {
 
         let mut file = std::fs::File::create(cache_file_path).expect("Could not create input file");
         let _ = write!(file, "{}", content);
-    }
+
+        content
+    } else {
+        std::fs::read_to_string(cache_file_path).expect("Could not read cache file")
+    };
 
     let input_file_path = format!("{}/input", input_date_folder);
     let file_path = std::path::Path::new(&input_file_path);
 
-    let mut file = std::fs::File::create(file_path).expect("Could not create input file");
-    let cache_content =
-        std::fs::read_to_string(cache_file_path).expect("Could not read cache file");
+    if file_path.exists() {
+        let current_content = std::fs::read_to_string(file_path)
+            .expect("Cache file exists but could not be read to string");
 
+        if current_content == cache_content {
+            return;
+        }
+    }
+
+    let mut file = std::fs::File::create(file_path).expect("Could not create input file");
     let _ = write!(file, "{}", cache_content);
 }

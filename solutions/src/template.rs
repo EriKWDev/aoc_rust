@@ -3,7 +3,7 @@
 use utils::*;
 
 pub type Data = ();
-const DATE: utils::Date = (2022, 01);
+const DATE: utils::Date = (2022, 02);
 
 pub fn parse_data(input: utils::Input) -> Data {
     ()
