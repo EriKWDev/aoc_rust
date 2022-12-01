@@ -13,6 +13,18 @@ pub fn get_input(date: Date, suffix: &str) -> Option<std::io::BufReader<std::fs:
     Some(std::io::BufReader::new(file))
 }
 
+pub fn input_to_string(input: Input) -> String {
+    let mut buf = String::new();
+
+    input.lines().map(|line| line.unwrap()).for_each(|line| {
+        let line = line.trim();
+        buf.push_str(&line);
+        buf.push('\n');
+    });
+
+    buf
+}
+
 pub fn run<F, D>(part_function: F, part: usize, date: Date) -> D
 where
     F: Fn(Input) -> D,

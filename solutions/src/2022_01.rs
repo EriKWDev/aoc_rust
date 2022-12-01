@@ -8,20 +8,23 @@ const DATE: utils::Date = (2022, 01);
 pub fn parse_data(input: utils::Input) -> Data {
     let mut current_elf = vec![];
 
-    let mut result = vec![];
+    let mut result = input
+        .lines()
+        .map(|line| line.unwrap())
+        .filter_map(|line| {
+            let line = line.trim();
 
-    for line in input.lines().map(|line| line.unwrap()) {
-        if line == "" {
-            result.push(current_elf.clone());
-            current_elf.clear();
-        } else {
-            let value = line.trim().parse::<usize>().unwrap();
-            current_elf.push(value);
-        }
-    }
+            if line == "" {
+                Some(current_elf.drain(..).collect())
+            } else {
+                let value = line.parse::<usize>().unwrap();
+                current_elf.push(value);
+                None
+            }
+        })
+        .collect::<Data>();
 
-    result.push(current_elf.clone());
-
+    result.push(current_elf);
     result
 }
 
@@ -49,7 +52,6 @@ pub fn part_2(input: utils::Input) -> String {
     new_vals.reverse();
 
     let (a, b, c) = (new_vals[0], new_vals[1], new_vals[2]);
-
     format!("{}", a + b + c)
 }
 
