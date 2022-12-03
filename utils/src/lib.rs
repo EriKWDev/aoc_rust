@@ -1,3 +1,4 @@
+pub use std::collections::{hash_set::Intersection, HashMap, HashSet};
 pub use std::io::BufRead;
 
 pub type Date = (usize, usize);
@@ -7,7 +8,6 @@ pub fn get_input(date: Date, suffix: &str) -> Option<std::io::BufReader<std::fs:
     let (year, day) = date;
 
     let path = format!("solutions/input/{:04}_{:02}/{}", year, day, suffix);
-
     let file = std::fs::File::open(&path).ok()?;
 
     Some(std::io::BufReader::new(file))

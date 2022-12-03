@@ -11,14 +11,13 @@ chrono = "0.4.23"
 ureq = "*"
 
 [[bin]]
+name = "template"
+path = "src/template.rs"
+
+[[bin]]
 name = "2022_01"
 path = "src/2022_01.rs"
 
 [[bin]]
-name = "2022_02"
-path = "src/2022_02.rs"
-
-[[bin]]
-name = "template"
-path = "src/template.rs"
-
+name = "2022_03"
+path = "src/2022_03.rs"
