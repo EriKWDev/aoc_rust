@@ -4,14 +4,14 @@ use utils::*;
 
 const DATE: utils::Date = (2022, 03);
 
-fn score_inter<'a, S>(inter: Intersection<'a, char, S>) -> usize
+fn score_intersection<'a, I>(intersection: I) -> usize
 where
-    S: std::hash::BuildHasher,
+    I: std::iter::IntoIterator<Item = &'a char>,
 {
     const LOWER_N: usize = 96;
     const UPPER_N: usize = 38;
 
-    inter
+    intersection
         .into_iter()
         .map(|char| {
             let char_number = *char as usize;
@@ -42,7 +42,7 @@ pub fn part_1(input: utils::Input) -> String {
             buff_b.extend(b.chars());
 
             let inter = buff_a.intersection(&buff_b);
-            let score = score_inter(inter);
+            let score = score_intersection(inter);
 
             buff_a.clear();
             buff_b.clear();
@@ -55,33 +55,33 @@ pub fn part_1(input: utils::Input) -> String {
 }
 
 pub fn part_2(input: utils::Input) -> String {
-    let mut buff_a = HashSet::new();
-    let mut buff_b = HashSet::new();
-    let mut buff_c = HashSet::new();
-    let mut inter_buff = HashSet::new();
+    let mut rucksack_buffer = HashSet::new();
+    let mut common_items = HashSet::new();
 
     let lines = input.lines().map(|line| line.unwrap()).collect::<Vec<_>>();
 
     let result = lines
-        .windows(3)
-        .step_by(3)
+        .chunks(3)
         .map(|group| {
-            let (a, b, c) = (&group[0], &group[1], &group[2]);
+            group.iter().for_each(|rucksack| {
+                let chars = rucksack.chars();
 
-            buff_a.extend(a.chars());
-            buff_b.extend(b.chars());
-            buff_c.extend(c.chars());
+                if common_items.is_empty() {
+                    common_items.extend(chars);
+                } else {
+                    rucksack_buffer.extend(chars);
 
-            let ab = buff_a.intersection(&buff_b);
-            inter_buff.extend(ab);
+                    common_items = common_items
+                        .intersection(&rucksack_buffer)
+                        .cloned()
+                        .collect();
 
-            let ab_c = inter_buff.intersection(&buff_c);
-            let score = score_inter(ab_c);
+                    rucksack_buffer.clear();
+                }
+            });
 
-            buff_a.clear();
-            buff_b.clear();
-            buff_c.clear();
-            inter_buff.clear();
+            let score = score_intersection(common_items.iter());
+            common_items.clear();
 
             score
         })
