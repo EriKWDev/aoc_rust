@@ -34,7 +34,6 @@ pub fn part_1(input: utils::Input) -> String {
 
     let result = input
         .lines()
-        .map(|line| line.unwrap())
         .map(|line| {
             let (a, b) = line.split_at(line.len() / 2);
 
@@ -58,7 +57,7 @@ pub fn part_2(input: utils::Input) -> String {
     let mut rucksack_buffer = HashSet::new();
     let mut common_items = HashSet::new();
 
-    let lines = input.lines().map(|line| line.unwrap()).collect::<Vec<_>>();
+    let lines = input.lines().collect::<Vec<_>>();
 
     let result = lines
         .chunks(3)

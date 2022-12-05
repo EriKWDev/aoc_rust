@@ -8,7 +8,6 @@ pub type Data = Vec<((usize, usize), (usize, usize))>;
 pub fn parse_data(input: utils::Input) -> Data {
     input
         .lines()
-        .map(|line| line.unwrap())
         .map(|line| {
             let mut split = line.split(",");
 

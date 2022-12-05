@@ -22,7 +22,6 @@ const DATE: utils::Date = (2022, 02);
 pub fn parse_data(input: utils::Input) -> Data {
     input
         .lines()
-        .map(|line| line.unwrap())
         .map(|line| {
             let mut it = line.trim().split_whitespace().take(2);
 

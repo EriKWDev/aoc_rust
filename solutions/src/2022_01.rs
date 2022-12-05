@@ -10,7 +10,6 @@ pub fn parse_data(input: utils::Input) -> Data {
 
     let mut result = input
         .lines()
-        .map(|line| line.unwrap())
         .filter_map(|line| {
             let line = line.trim();
             if line.is_empty() {

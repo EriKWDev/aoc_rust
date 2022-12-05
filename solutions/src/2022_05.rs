@@ -12,18 +12,17 @@ pub fn parse_data(input: utils::Input) -> Data {
     let mut max_len_first = 0;
     let mut is_parsing_first_part = true;
 
-    let (lines_piles, lines_commands): (Vec<_>, Vec<_>) =
-        input.lines().map(|line| line.unwrap()).partition(|line| {
-            if line.is_empty() {
-                is_parsing_first_part = false;
-            }
+    let (lines_piles, lines_commands): (Vec<_>, Vec<_>) = input.lines().partition(|line| {
+        if line.is_empty() {
+            is_parsing_first_part = false;
+        }
 
-            if is_parsing_first_part {
-                max_len_first = max_len_first.max(line.len());
-            }
+        if is_parsing_first_part {
+            max_len_first = max_len_first.max(line.len());
+        }
 
-            is_parsing_first_part
-        });
+        is_parsing_first_part
+    });
 
     let mut buffer = vec![vec![]; max_len_first / 3];
     lines_piles.iter().rev().skip(1).for_each(|line| {
@@ -39,7 +38,7 @@ pub fn parse_data(input: utils::Input) -> Data {
         .iter()
         .skip(1)
         .map(|line| {
-            let mut it = line.trim().split_ascii_whitespace().skip(1).step_by(2);
+            let mut it = line.split_ascii_whitespace().skip(1).step_by(2);
 
             (
                 it.next().unwrap().parse().unwrap(),
