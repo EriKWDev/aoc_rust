@@ -9,109 +9,85 @@ pub type Data = (Buffer, Commands);
 const DATE: utils::Date = (2022, 05);
 
 pub fn parse_data(input: utils::Input) -> Data {
-    // input.lines().map(|line| line.unwrap()).collect::<Vec<_>>()
-
-    let mut flag = false;
-
-    let mut lines_first = vec![];
-    let mut lines_last = vec![];
-
     let mut max_len_first = 0;
+    let mut is_parsing_first_part = true;
 
-    for line in input.lines().map(|line| line.unwrap()) {
-        if line.is_empty() {
-            flag = true;
-            continue;
-        }
-
-        if flag {
-            lines_last.push(line);
-        } else {
-            if line.contains(" 1 ") {
-                continue;
+    let (lines_piles, lines_commands): (Vec<_>, Vec<_>) =
+        input.lines().map(|line| line.unwrap()).partition(|line| {
+            if line.is_empty() {
+                is_parsing_first_part = false;
             }
 
-            max_len_first = max_len_first.max(line.len());
-            lines_first.push(line);
-        }
-    }
+            if is_parsing_first_part {
+                max_len_first = max_len_first.max(line.len());
+            }
 
-    let height = lines_first.len();
+            is_parsing_first_part
+        });
+
     let mut buffer = vec![vec![]; max_len_first / 3];
-
-    for (i, line) in lines_first.iter().rev().enumerate() {
-        for (j, char) in line.chars().enumerate() {
-            if char.is_ascii_alphabetic() {
+    lines_piles.iter().rev().skip(1).for_each(|line| {
+        line.chars()
+            .enumerate()
+            .filter(|(_, char)| char.is_ascii_alphabetic())
+            .for_each(|(j, char)| {
                 buffer[(j - 1) / 4].push(char);
-            }
-        }
-    }
+            });
+    });
 
-    let mut commands = vec![];
+    let commands = lines_commands
+        .iter()
+        .skip(1)
+        .map(|line| {
+            let mut it = line.trim().split_ascii_whitespace().skip(1).step_by(2);
 
-    for line in lines_last.iter() {
-        let it = line.trim().split_ascii_whitespace().collect::<Vec<_>>();
-
-        let a = it[1];
-        let b = it[3];
-        let c = it[5];
-
-        let (a, b, c) = (
-            a.trim().parse().unwrap(),
-            b.trim().parse().unwrap(),
-            c.trim().parse().unwrap(),
-        );
-
-        commands.push((a, b, c));
-    }
+            (
+                it.next().unwrap().parse().unwrap(),
+                it.next().unwrap().parse().unwrap(),
+                it.next().unwrap().parse().unwrap(),
+            )
+        })
+        .collect::<Vec<_>>();
 
     (buffer, commands)
 }
 
 pub fn part_1(input: utils::Input) -> String {
-    let (mut buffer, commands) = parse_data(input);
+    let (mut buffer, mut commands) = parse_data(input);
+    let mut buf = vec![];
 
-    for (n, from, to) in commands {
-        for _ in 0..n {
-            let item = buffer[from - 1].pop().unwrap();
-            buffer[to - 1].push(item);
-        }
-    }
+    commands.drain(..).for_each(|(n, from, to)| {
+        let items = (0..n).into_iter().filter_map(|_| buffer[from - 1].pop());
+        buf.extend(items);
 
-    let mut result = String::new();
-    for pile in &mut buffer {
-        if let Some(it) = pile.pop() {
-            result.push(it);
-        }
-    }
+        buffer[to - 1].extend(buf.drain(..));
+    });
 
-    result
+    let top_crates = buffer
+        .iter_mut()
+        .filter_map(|pile| pile.pop())
+        .collect::<String>();
+
+    top_crates
 }
 
 pub fn part_2(input: utils::Input) -> String {
-    let (mut buffer, commands) = parse_data(input);
-
+    let (mut buffer, mut commands) = parse_data(input);
     let mut buf = vec![];
 
-    for (n, from, to) in commands {
-        for _ in 0..n {
-            let item = buffer[from - 1].pop().unwrap();
-            buf.push(item);
-        }
+    commands.drain(..).for_each(|(n, from, to)| {
+        let items = (0..n).into_iter().filter_map(|_| buffer[from - 1].pop());
+        buf.extend(items);
 
-        for item in buf.drain(..).rev() {
-            buffer[to - 1].push(item);
-        }
-    }
+        buffer[to - 1].extend(buf.drain(..).rev());
+    });
 
-    let mut result = String::new();
-    for pile in &mut buffer {
-        if let Some(it) = pile.pop() {
-            result.push(it);
-        }
-    }
+    let top_crates = buffer
+        .iter_mut()
+        .filter_map(|pile| pile.pop())
+        .collect::<String>();
 
-    result
+    top_crates
 }
 
 fn run_1() {
@@ -139,6 +115,6 @@ fn run_2() {
 }
 
 fn main() {
-    // run_1();
+    run_1();
     run_2();
 }
