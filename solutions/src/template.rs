@@ -3,7 +3,7 @@
 use utils::*;
 
 pub type Data = ();
-const DATE: utils::Date = (2022, 05);
+pub const DATE: utils::Date = (2022, 06);
 
 pub fn parse_data(input: utils::Input) -> Data {
     // input.lines().map(|line| line.unwrap()).collect::<Vec<_>>()

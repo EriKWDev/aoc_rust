@@ -6,7 +6,7 @@ pub type Buffer = Vec<Vec<char>>;
 pub type Commands = Vec<(usize, usize, usize)>;
 pub type Data = (Buffer, Commands);
 
-const DATE: utils::Date = (2022, 05);
+pub const DATE: utils::Date = (2022, 05);
 
 pub fn parse_data(input: utils::Input) -> Data {
     let mut max_len_first = 0;

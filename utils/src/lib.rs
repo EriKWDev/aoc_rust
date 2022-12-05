@@ -1,7 +1,6 @@
-use std::fs::read_to_string;
 pub use std::{
     collections::{HashMap, HashSet},
-    fs::File,
+    fs::{read_to_string, File},
     io::{BufRead, BufReader},
 };
 
@@ -33,10 +32,6 @@ where
     F: Fn(Input) -> D,
     D: std::fmt::Display,
 {
-    /*
-        TODO(Erik): Automatically fetch data for the day
-    */
-
     println!("");
     println!("== Running Part {} ==", part);
 
@@ -48,6 +43,49 @@ where
     println!("");
 
     answer
+}
+
+pub fn bench<F, D, O>(part_function: F, part: usize, date: Date, max_time: O)
+where
+    F: Fn(Input) -> D,
+    D: std::fmt::Display,
+    O: Into<Option<std::time::Duration>>,
+{
+    let max_time = max_time
+        .into()
+        .unwrap_or(std::time::Duration::from_secs(10));
+
+    let max_iterations = 10_000;
+
+    /*
+        NOTE: Opening input files and parsing that into a String is not
+              considered part of the bench. Parsing that String to usable
+              data is, however, of course included in the timings.
+    */
+    let input = get_input(date, "input").unwrap();
+
+    let now = std::time::Instant::now();
+    let mut n = 0;
+
+    let mut timings = vec![];
+
+    while now.elapsed() < max_time && n < max_iterations {
+        n += 1;
+        let start = std::time::Instant::now();
+        let _ = part_function(input.clone());
+        let time_taken = start.elapsed();
+        timings.push(time_taken);
+    }
+
+    let padding = " .......... ";
+
+    let total = timings.iter().sum::<std::time::Duration>();
+    let average = total.div_f64(n as f64);
+
+    println!(
+        "{:04}_{:02} part {}{}{:?} (ran {}/{})",
+        date.0, date.1, part, padding, average, n, max_iterations
+    );
 }
 
 pub fn test<F, D>(

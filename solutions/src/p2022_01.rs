@@ -3,7 +3,7 @@
 use utils::*;
 
 pub type Data = Vec<Vec<usize>>;
-const DATE: utils::Date = (2022, 01);
+pub const DATE: utils::Date = (2022, 01);
 
 pub fn parse_data(input: utils::Input) -> Data {
     let mut current_elf = vec![];

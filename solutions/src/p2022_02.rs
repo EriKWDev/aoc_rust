@@ -17,7 +17,7 @@ enum Outcome {
 }
 
 pub type Data = Vec<(Shape, Shape)>;
-const DATE: utils::Date = (2022, 02);
+pub const DATE: utils::Date = (2022, 02);
 
 pub fn parse_data(input: utils::Input) -> Data {
     input

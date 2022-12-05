@@ -2,7 +2,7 @@
 
 use utils::*;
 
-const DATE: utils::Date = (2022, 03);
+pub const DATE: utils::Date = (2022, 03);
 
 fn score_intersection<'a, I>(intersection: I) -> usize
 where
