@@ -45,7 +45,16 @@ where
     answer
 }
 
-pub fn bench<F, D, O>(part_function: F, part: usize, date: Date, max_time: O)
+pub struct BenchResult {
+    pub total: std::time::Duration,
+    pub average: std::time::Duration,
+    pub times: usize,
+    pub max_iterations: usize,
+    pub date: Date,
+    pub part: usize,
+}
+
+pub fn bench<F, D, O>(part_function: F, part: usize, date: Date, max_time: O) -> BenchResult
 where
     F: Fn(Input) -> D,
     D: std::fmt::Display,
@@ -65,27 +74,54 @@ where
     let input = get_input(date, "input").unwrap();
 
     let now = std::time::Instant::now();
-    let mut n = 0;
 
     let mut timings = vec![];
+    let mut times = 0;
 
-    while now.elapsed() < max_time && n < max_iterations {
-        n += 1;
+    print!(
+        "[ INFO ] Benchmarking {}_{:02} part {}",
+        date.0, date.1, part
+    );
+
+    while now.elapsed() < max_time && times < max_iterations {
+        times += 1;
         let start = std::time::Instant::now();
         let _ = part_function(input.clone());
         let time_taken = start.elapsed();
         timings.push(time_taken);
     }
 
-    let padding = " .......... ";
-
+    let time_taken = now.elapsed();
     let total = timings.iter().sum::<std::time::Duration>();
-    let average = total.div_f64(n as f64);
+    let average = total.div_f64(times as f64);
 
     println!(
-        "{:04}_{:02} part {}{}{:?} (ran {}/{})",
-        date.0, date.1, part, padding, average, n, max_iterations
+        " {:?} ({} / {}, took: {:?})",
+        average, times, max_iterations, time_taken
     );
+
+    BenchResult {
+        total,
+        times,
+        max_iterations,
+        average,
+        date,
+        part,
+    }
+}
+
+pub fn summarize_results(tests: &[BenchResult]) {
+    tests.iter().for_each(|result| {
+        println!(
+            "{:04}_{:02} part {} .......... {:?} (ran {}/{})",
+            result.date.0,
+            result.date.1,
+            result.part,
+            result.average,
+            result.times,
+            result.max_iterations
+        );
+    });
 }
 
 pub fn test<F, D>(
