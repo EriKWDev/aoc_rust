@@ -2,120 +2,137 @@
 
 use utils::*;
 
-pub type Data = HashMap<String, (Vec<(usize, String)>, Vec<String>)>;
+pub type Data = Vec<Entry>;
 pub const DATE: utils::Date = (2022, 07);
 
+#[derive(Debug, Clone)]
+pub enum Entry {
+    File {
+        size: usize,
+        name: String,
+        parent_index: usize,
+    },
+    Folder {
+        children: Vec<usize>,
+        parent_index: usize,
+        name: String,
+    },
+}
+
 pub fn parse_data(input: utils::Input) -> Data {
-    let mut current_buf = vec![];
-    let mut current_path_children = vec![];
-    let mut current_path: Vec<String> = vec![];
+    let mut files_and_folders = vec![];
 
-    input
-        .lines()
-        .filter_map(|line| {
-            let mut it = line.split_whitespace();
+    let mut current_index = 0;
 
-            if line.starts_with("$") {
-                let mut it = it.skip(1);
-                let new_command = it.next().unwrap();
+    for line in input.lines() {
+        let mut it = line.split_whitespace();
+        let first = it.next().unwrap();
 
-                match new_command {
-                    "cd" => {
-                        let next_path = it.next().unwrap();
-                        let key;
+        if first == "$" {
+            let command = it.next().unwrap();
 
-                        if next_path == ".." {
-                            key = Some(current_path.last().unwrap().to_owned());
+            if command == "cd" {
+                let path = it.next().unwrap();
 
-                            current_path.pop();
-                        } else {
-                            if current_path.is_empty() {
-                                key = None;
-                            } else {
-                                key = Some(current_path.last().unwrap().to_owned());
+                if path == ".." {
+                    let Entry::Folder { parent_index, .. } = &files_and_folders[current_index] else { panic!() };
+                    current_index = *parent_index;
+                } else {
+                    let new_path = path.to_owned();
+
+                    if !files_and_folders.is_empty() {
+                        let Entry::Folder {
+                        parent_index,
+                        children,
+                        ..
+                    } = &files_and_folders[current_index] else { panic!() }                        ;
+                        for child_index in children {
+                            if let Entry::Folder { name, .. } = &files_and_folders[*child_index] {
+                                if path == name {
+                                    current_index = *child_index;
+                                }
                             }
-
-                            current_path.push(next_path.to_owned());
                         }
+                    } else {
+                        files_and_folders.push(Entry::Folder {
+                            children: vec![],
+                            parent_index: 0,
+                            name: "/".to_owned(),
+                        });
+                    }
+                }
+            }
+        } else {
+            let dir_or_size = first;
+            let entry = it.next().unwrap().to_owned();
 
-                        if let Some(key) = key {
-                            if current_buf.is_empty() && current_path_children.is_empty() {
-                                None
-                            } else {
-                                Some((
-                                    key,
-                                    (
-                                        current_buf.drain(..).collect(),
-                                        current_path_children.drain(..).collect(),
-                                    ),
-                                ))
-                            }
-                        } else {
-                            None
+            if dir_or_size == "dir" {
+                files_and_folders.push(Entry::Folder {
+                    children: vec![],
+                    parent_index: current_index,
+                    name: entry,
+                });
+            } else {
+                let size = dir_or_size.trim().parse().unwrap();
+                files_and_folders.push(Entry::File {
+                    name: entry,
+                    size,
+                    parent_index: current_index,
+                });
+            }
+
+            let index = files_and_folders.len() - 1;
+
+            let Entry::Folder { children, .. } = &mut files_and_folders[current_index] else { panic!() };
+            children.push(index);
+        }
+    }
+
+    files_and_folders
+}
+
+pub fn size_of_index(files_and_folders: &Data, index: usize) -> Option<usize> {
+    let mut checked = HashSet::<usize>::new();
+    let mut buffer = vec![];
+
+    let mut current = index;
+    let Entry::Folder { children, .. } = &files_and_folders[current]  else { return None };
+    buffer.extend(children.iter().cloned());
+
+    let mut total = 0;
+    while !buffer.is_empty() {
+        let current = buffer.pop().unwrap();
+        let could_add = checked.insert(current);
+
+        if could_add {
+            match &files_and_folders[current] {
+                Entry::Folder { children, .. } => {
+                    for child in children {
+                        if !checked.contains(child) {
+                            buffer.push(child.clone());
                         }
                     }
-
-                    _ => None,
-                }
-            } else {
-                let size_or_dir = it.next().unwrap().trim();
-                let file_or_path = it.next().unwrap().to_owned();
-
-                if size_or_dir == "dir" {
-                    current_path_children.push(file_or_path);
-                } else {
-                    let size = size_or_dir.parse().unwrap();
-                    current_buf.push((size, file_or_path));
                 }
 
-                None
+                Entry::File { size, .. } => {
+                    total += *size;
+                }
             }
-        })
-        .collect()
+        }
+    }
+
+    return Some(total);
 }
 
 pub fn part_1(input: utils::Input) -> String {
     let data = parse_data(input);
 
-    let dir_size_lookup = data
-        .iter()
-        .map(|(path, (files, _))| (path, files.iter().map(|(size, file)| *size).sum::<usize>()))
-        .collect::<HashMap<_, _>>();
+    const MIN_SIZE: usize = 100_000;
 
-    let dirs = data.keys().cloned().collect::<Vec<String>>();
-    let result = dirs
-        .iter()
-        .filter_map(|path| {
-            let mut size = *dir_size_lookup.get(path).unwrap();
-            let (files, children) = data.get(path).unwrap();
-
-            let mut checked = HashSet::from([path.clone()]);
-            let mut buffer = children.clone();
-
-            while !buffer.is_empty() {
-                let current = buffer.pop().unwrap();
-                let could_insert = checked.insert(current.clone());
-
-                if could_insert {
-                    if let Some(new_size) = dir_size_lookup.get(&current) {
-                        size += *new_size;
-
-                        let (files, children) = data.get(&current).unwrap();
-                        for child in children {
-                            if !checked.contains(child) {
-                                buffer.push(child.clone())
-                            }
-                        }
-                    }
-                }
-            }
-
-            if size <= 100_000 {
-                Some(size)
-            } else {
-                None
-            }
-        })
+    let result = (0..data.len())
+        .into_iter()
+        .filter_map(|i| (size_of_index(&data, i)))
+        .filter(|size| *size <= MIN_SIZE)
         .sum::<usize>();
 
     format!("{}", result)
@@ -123,8 +140,22 @@ pub fn part_1(input: utils::Input) -> String {
 
 pub fn part_2(input: utils::Input) -> String {
     let data = parse_data(input);
+    let used = size_of_index(&data, 0).unwrap();
 
-    format!("{}", 0)
+    const TOTAL: usize = 70000000;
+    const REQUIRED: usize = 30000000;
+
+    let free = TOTAL - used;
+    let min_to_delete = REQUIRED - free;
+
+    let result = (0..data.len())
+        .into_iter()
+        .filter_map(|i| (size_of_index(&data, i)))
+        .filter(|size| *size >= min_to_delete)
+        .min()
+        .unwrap_or(0);
+
+    format!("{}", result)
 }
 
 fn run_1() {
@@ -136,19 +167,13 @@ fn run_1() {
     let all_correct_1 = utils::test(part_1, DATE, 1, &tests_1);
     if all_correct_1 {
         let answer = utils::run(part_1, 1, DATE);
-
-        match &answer as &str {
-            "1138249" | "" | "0" => println!(" WRONG\n"),
-
-            _ => {}
-        }
     }
 }
 
 fn run_2() {
     #[rustfmt::skip]
     let tests_2 = [
-        (1, Some("1")),
+        (1, Some("24933642")),
     ];
 
     let all_correct_2 = utils::test(part_2, DATE, 2, &tests_2);
@@ -159,5 +184,5 @@ fn run_2() {
 
 fn main() {
     run_1();
-    // run_2();
+    run_2();
 }
