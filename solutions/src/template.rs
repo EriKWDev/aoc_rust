@@ -3,24 +3,26 @@
 use utils::*;
 
 pub type Data = ();
-pub const DATE: utils::Date = (2022, 09);
+pub const DATE: utils::Date = (2022, 10);
 
 pub fn parse_data(input: utils::Input) -> Data {
-    // input.lines().map(|line| line.unwrap()).collect::<Vec<_>>()
+    // input.lines().map(|line| line).collect::<Vec<_>>()
 
     todo!()
 }
 
 pub fn part_1(input: utils::Input) -> String {
     let data = parse_data(input);
+    let mut result = 0;
 
-    format!("{}", 0)
+    format!("{}", result)
 }
 
 pub fn part_2(input: utils::Input) -> String {
     let data = parse_data(input);
+    let mut result = 0;
 
-    format!("{}", 0)
+    format!("{}", result)
 }
 
 fn run_1() {
