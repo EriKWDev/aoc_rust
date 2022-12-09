@@ -17,7 +17,7 @@ Remember to put your secret session cookie token
 in the file `solutions/SECRET` so that input data
 can be downloaded automatically
 
-## Benchmarks | Updated 2022 05 dec
+## Benchmarks | Updated 2022, 09 december
 ```
 == Benchmarks by Date and Part ==
 2022_01 part 1 .......... 66.001µs (ran 10000/10000)
