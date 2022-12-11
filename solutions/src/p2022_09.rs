@@ -38,14 +38,6 @@ pub fn parse_data(input: utils::Input) -> Data {
 }
 
 #[inline(always)]
-pub fn head_and_tail_are_touching(head: &(isize, isize), tail: &(isize, isize)) -> bool {
-    let dx = head.0 - tail.0;
-    let dy = head.1 - tail.1;
-
-    dx.abs() <= 1 && dy.abs() <= 1
-}
-
-#[inline(always)]
 pub fn rope_step(mut head: (isize, isize), direction: (isize, isize)) -> (isize, isize) {
     head.0 += direction.0;
     head.1 += direction.1;
@@ -57,20 +49,21 @@ pub fn solve_constraints(
     mut head: (isize, isize),
     mut tail: (isize, isize),
 ) -> ((isize, isize), (isize, isize)) {
+    let dx = head.0 - tail.0;
+    let dy = head.1 - tail.1;
+
     // Are they "touching"?
-    if head_and_tail_are_touching(&head, &tail) {
+    if dx.abs() <= 1 && dy.abs() <= 1 {
         return (head, tail);
     }
 
     // Same row
-    let dx = head.0 - tail.0;
     if tail.1 == head.1 && dx.abs() == 2 {
         tail.0 += dx.signum();
         return (head, tail);
     }
 
     // Same col
-    let dy = head.1 - tail.1;
     if tail.0 == head.0 && dy.abs() == 2 {
         tail.1 += dy.signum();
         return (head, tail);
@@ -88,7 +81,7 @@ pub fn part_1(input: utils::Input) -> String {
 
     let mut head = (0, 0);
     let mut tail = (0, 0);
-    let mut visited_positions = HashSet::new();
+    let mut visited_positions = HashSet::with_capacity(10000);
 
     data.iter().for_each(|(direction, amount)| {
         (0..*amount).into_iter().for_each(|_| {
@@ -106,24 +99,22 @@ pub fn part_2(input: utils::Input) -> String {
     let data = parse_data(input);
 
     const N: usize = 10;
-    const HEAD_POS: usize = N - 1;
-    const TAIL_POS: usize = 0;
+    const HEAD_POS: usize = 0;
+    const TAIL_POS: usize = N - 1;
 
-    let mut rope_parts = [(0, 0); N];
-    let mut visited_positions = HashSet::new();
+    let mut rope = [(0, 0); N];
+    let mut visited_positions = HashSet::with_capacity(10000);
 
     data.iter().for_each(|(direction, amount)| {
         (0..*amount).into_iter().for_each(|_| {
-            rope_parts[HEAD_POS] = rope_step(rope_parts[HEAD_POS], *direction);
+            rope[HEAD_POS] = rope_step(rope[HEAD_POS], *direction);
 
-            (TAIL_POS + 1..=HEAD_POS).into_iter().rev().for_each(|i| {
-                let a = i;
-                let b = i - 1;
-
-                (rope_parts[a], rope_parts[b]) = solve_constraints(rope_parts[a], rope_parts[b]);
+            (HEAD_POS + 1..=TAIL_POS).into_iter().for_each(|i| {
+                let (a, b) = (i - 1, i);
+                (rope[a], rope[b]) = solve_constraints(rope[a], rope[b]);
             });
 
-            visited_positions.insert(rope_parts[TAIL_POS]);
+            visited_positions.insert(rope[TAIL_POS]);
         });
     });
 

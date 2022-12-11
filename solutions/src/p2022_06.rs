@@ -9,8 +9,9 @@ pub fn part_1(input: utils::Input) -> String {
     let mut buf = HashSet::<char>::new();
     const N: usize = 4;
 
-    let chars = input.lines().next().unwrap().chars().collect::<Vec<_>>();
-    let (i, _window) = chars
+    let (i, _window) = input
+        .chars()
+        .collect::<Vec<_>>()
         .windows(N)
         .enumerate()
         .find(|(i, window)| {
@@ -29,8 +30,9 @@ pub fn part_2(input: utils::Input) -> String {
     let mut buf = HashSet::<char>::new();
     const N: usize = 14;
 
-    let chars = input.lines().next().unwrap().chars().collect::<Vec<_>>();
-    let (i, _window) = chars
+    let (i, _window) = input
+        .chars()
+        .collect::<Vec<_>>()
         .windows(N)
         .enumerate()
         .find(|(i, window)| {
