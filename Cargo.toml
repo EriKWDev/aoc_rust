@@ -11,5 +11,8 @@ default-members = ["solutions"]
 utils = { path = "utils" }
 solutions = { path = "solutions" }
 
+[profile.release]
+debug = true
+
 [profile.dev]
 opt-level = 2

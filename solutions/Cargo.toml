@@ -7,8 +7,8 @@ edition = "2021"
 utils = { workspace = true }
 
 [build-dependencies]
-chrono = "0.4.23"
-ureq = "*"
+chrono = { version = "0.4.23", default-features = false, features = ["clock"]}
+ureq = { version = "*", default-features = false, features = [ ] }
 
 [[bin]]
 name = "template"
@@ -53,3 +53,7 @@ path = "src/p2022_09.rs"
 [[bin]]
 name = "2022_10"
 path = "src/p2022_10.rs"
+
+[[bin]]
+name = "2022_11"
+path = "src/p2022_11.rs"

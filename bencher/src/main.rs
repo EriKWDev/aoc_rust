@@ -36,6 +36,9 @@ fn main() {
     results.push(utils::bench(solutions::p2022_10::part_1, 1, solutions::p2022_10::DATE, max_time));
     results.push(utils::bench(solutions::p2022_10::part_2, 2, solutions::p2022_10::DATE, max_time));
 
+    results.push(utils::bench(solutions::p2022_11::part_1, 1, solutions::p2022_11::DATE, max_time));
+    results.push(utils::bench(solutions::p2022_11::part_2, 2, solutions::p2022_11::DATE, max_time));
+
     println!("\n\n== Benchmarks by Date and Part ==");
     utils::summarize_results(&results);
 

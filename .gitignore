@@ -1,3 +1,6 @@
 target/
 SECRET
 solutions/SECRET
+flamegraph.svg
+perf.data
+perf.data.old
