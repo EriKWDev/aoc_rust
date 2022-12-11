@@ -31,14 +31,16 @@ pub fn parse_data(input: utils::Input) -> Data {
 
             let items = lines
                 .next()?
-                .trim_start_matches("  Starting items: ")
+                .trim()
+                .trim_start_matches("Starting items: ")
                 .split(", ")
                 .map(|i| i.parse().unwrap())
                 .collect::<VecDeque<usize>>();
 
             let mut operation = lines
                 .next()?
-                .trim_start_matches("  Operation: new = ")
+                .trim()
+                .trim_start_matches("Operation: new = ")
                 .split_whitespace()
                 .skip(1);
 
@@ -57,19 +59,22 @@ pub fn parse_data(input: utils::Input) -> Data {
 
             let div_test = lines
                 .next()?
-                .trim_start_matches("  Test: divisible by ")
+                .trim()
+                .trim_start_matches("Test: divisible by ")
                 .parse()
                 .ok()?;
 
             let target_0 = lines
                 .next()?
-                .trim_start_matches("    If true: throw to monkey ")
+                .trim()
+                .trim_start_matches("If true: throw to monkey ")
                 .parse()
                 .ok()?;
 
             let target_1 = lines
                 .next()?
-                .trim_start_matches("    If false: throw to monkey ")
+                .trim()
+                .trim_start_matches("If false: throw to monkey ")
                 .parse()
                 .ok()?;
 
