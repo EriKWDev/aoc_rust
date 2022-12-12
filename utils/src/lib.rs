@@ -1,5 +1,5 @@
 pub use std::{
-    collections::{HashMap, HashSet},
+    collections::{BinaryHeap, HashMap, HashSet, VecDeque},
     fs::{read_to_string, File},
     io::{BufRead, BufReader},
 };

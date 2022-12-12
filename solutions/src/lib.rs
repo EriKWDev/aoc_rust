@@ -9,3 +9,4 @@ pub mod p2022_08;
 pub mod p2022_09;
 pub mod p2022_10;
 pub mod p2022_11;
+pub mod p2022_12;
