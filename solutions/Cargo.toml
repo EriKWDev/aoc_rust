@@ -5,10 +5,17 @@ edition = "2021"
 
 [dependencies]
 utils = { workspace = true }
+serde = { version="*", optional=true }
+serde_json = { version="*", optional=true }
 
 [build-dependencies]
 chrono = { version = "0.4.23", default-features = false, features = ["clock"]}
 ureq = { version = "*" }
+
+[features]
+default = []
+serde = ["dep:serde", "dep:serde_json"]
+all = ["serde"]
 
 [[bin]]
 name = "template"
@@ -61,3 +68,12 @@ path = "src/p2022_11.rs"
 [[bin]]
 name = "2022_12"
 path = "src/p2022_12.rs"
+
+[[bin]]
+name = "2022_13"
+path = "src/p2022_13.rs"
+required-features = ["serde"]
+
+[[bin]]
+name = "2022_14"
+path = "src/p2022_14.rs"

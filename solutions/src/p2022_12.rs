@@ -56,7 +56,7 @@ pub fn search_for_end(
 
         let coords_in_grid = DELTAS.iter().filter_map(|(dx, dy)| {
             let (new_x, new_y) = ((x as isize + dx) as usize, (y as isize + dy) as usize);
-            let value = grid.get(new_y).and_then(|row| row.get(new_x));
+            let value = grid.get(new_y).and_then(|col| col.get(new_x));
 
             if let Some(&value) = value {
                 Some((new_x, new_y, value))
