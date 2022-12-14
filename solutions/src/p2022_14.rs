@@ -41,24 +41,28 @@ pub fn parse_data(input: utils::Input) -> Data {
     let mut lowest = isize::MIN;
 
     for line in line_coords {
-        line.windows(2).for_each(|w| {
-            let ((a_x, a_y), (b_x, b_y)) = (w[0], w[1]);
+        line.windows(2)
+            .map(|w| {
+                let ((a_x, a_y), (b_x, b_y)) = (w[0], w[1]);
 
-            let sx = a_x.min(b_x);
-            let sy = a_y.min(b_y);
+                let sx = a_x.min(b_x);
+                let sy = a_y.min(b_y);
 
-            let ex = b_x.max(a_x);
-            let ey = b_y.max(a_y);
+                let ex = b_x.max(a_x);
+                let ey = b_y.max(a_y);
 
-            for x in sx..=ex {
-                map.insert((x as isize, sy as isize));
-            }
+                ((sx, sy), (ex, ey))
+            })
+            .for_each(|((sx, sy), (ex, ey))| {
+                for x in sx..=ex {
+                    map.insert((x as isize, sy as isize));
+                }
 
-            for y in sy..=ey {
-                map.insert((ex as isize, y as isize));
-                lowest = lowest.max(y as isize);
-            }
-        });
+                for y in sy..=ey {
+                    map.insert((ex as isize, y as isize));
+                    lowest = lowest.max(y as isize);
+                }
+            });
     }
 
     (lowest, map)
