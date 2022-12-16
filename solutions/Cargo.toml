@@ -77,3 +77,11 @@ required-features = ["serde"]
 [[bin]]
 name = "2022_14"
 path = "src/p2022_14.rs"
+
+[[bin]]
+name = "2022_15"
+path = "src/p2022_15.rs"
+
+[[bin]]
+name = "2022_16"
+path = "src/p2022_16.rs"
