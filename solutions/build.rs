@@ -26,7 +26,7 @@ fn main() {
         let url = format!("https://adventofcode.com/{}/day/{}/input", year, day);
 
         let response = ureq::get(&url)
-            .set("Cookie", &format!("session={}", SECRET))
+            .set("Cookie", &format!("session={}", SECRET.trim()))
             .set(
                 "User-Agent",
                 "github.com/ErikWDev/aoc_rust by ErikWDev@gmail.com",
