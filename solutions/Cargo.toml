@@ -89,3 +89,7 @@ path = "src/p2022_16.rs"
 [[bin]]
 name = "2022_17"
 path = "src/p2022_17.rs"
+
+[[bin]]
+name = "2022_18"
+path = "src/p2022_18.rs"
