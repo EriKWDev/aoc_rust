@@ -17,3 +17,4 @@ pub mod p2022_15;
 pub mod p2022_16;
 pub mod p2022_17;
 pub mod p2022_18;
+pub mod p2022_19;
