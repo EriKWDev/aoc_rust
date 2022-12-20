@@ -18,3 +18,4 @@ pub mod p2022_16;
 pub mod p2022_17;
 pub mod p2022_18;
 pub mod p2022_19;
+pub mod p2022_20;

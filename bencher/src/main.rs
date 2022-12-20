@@ -60,6 +60,12 @@ fn main() {
     results.push(utils::bench(solutions::p2022_18::part_1, 1, solutions::p2022_18::DATE, max_time));
     results.push(utils::bench(solutions::p2022_18::part_2, 2, solutions::p2022_18::DATE, max_time));
 
+    results.push(utils::bench(solutions::p2022_19::part_1, 1, solutions::p2022_19::DATE, max_time));
+    results.push(utils::bench(solutions::p2022_19::part_2, 2, solutions::p2022_19::DATE, max_time));
+
+    results.push(utils::bench(solutions::p2022_20::part_1, 1, solutions::p2022_20::DATE, max_time));
+    results.push(utils::bench(solutions::p2022_20::part_2, 2, solutions::p2022_20::DATE, max_time));
+
     println!("\n\n== Benchmarks by Date and Part ==");
     utils::summarize_results(&results);
 
