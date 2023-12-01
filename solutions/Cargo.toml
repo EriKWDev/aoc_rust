@@ -21,6 +21,8 @@ all = ["serde"]
 name = "template"
 path = "src/template.rs"
 
+# 2022
+
 [[bin]]
 name = "2022_01"
 path = "src/p2022_01.rs"
@@ -102,7 +104,7 @@ path = "src/p2022_19.rs"
 name = "2022_20"
 path = "src/p2022_20.rs"
 
-
+# 2023
 
 [[bin]]
 name = "2023_01"

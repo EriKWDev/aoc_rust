@@ -1,5 +1,18 @@
-# Advent of Code, in Rust
 
+# Advent of Code, in Rust
+## Setup
+Put your AoC secret session token in the file `solutions/SECRET` so that input data can be downloaded automatically
+
+To start a new day, copy `solutions/src/template.rs` into `solutions/src/p{YEAR}_{DAY}.rs`
+
+Modify `solutions/Cargo.toml` to include
+```toml
+[[bin]]
+name = "{YEAR}_{DAY}"
+path = "src/p{YEAR}_{DAY}.rs"
+```
+
+## Usage
 To run a specific day, do
 ```console
 cargo run --release --bin {YEAR}_{DAY}
@@ -13,9 +26,40 @@ For example:
 ./run.sh 2022_01
 ```
 
-Remember to put your secret session cookie token
-in the file `solutions/SECRET` so that input data
-can be downloaded automatically
+## Adding Automatic Tests
+Add input for tests to `input/{YEAR}_{DAY}/test_{n:02}`
+
+These can then be automatically tested before running on the real input as such:
+
+```rust
+type Data = /* ... */;
+fn part_1(input: Data) -> String { /* ... */ }
+
+fn run_1() {
+    /*
+        NOTE: The number symbolizes the 'n' in 'test_{n:02}', then an optional answer to
+              the test-case can be given which will be checked. If 'None', the test will be
+              run but won't block running on real input
+    */
+    #[rustfmt::skip]
+    let tests_1 = [
+        (1, Some("7")),
+        (2, Some("5")),
+        (3, Some("6")),
+        (4, Some("10")),
+        (5, Some("11")),
+    ];
+
+    let all_correct_1 = utils::test(part_1, DATE, 1, &tests_1);
+    if all_correct_1 {
+        let answer = utils::run(part_1, 1, DATE);
+    }
+}
+
+fn main() {
+    run_1();
+}
+```
 
 ## Benchmarks 2023 | Updated 2023, 1 december
 ```
