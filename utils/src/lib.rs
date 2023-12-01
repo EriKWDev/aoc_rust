@@ -60,9 +60,7 @@ where
     D: std::fmt::Display,
     O: Into<Option<std::time::Duration>>,
 {
-    let max_time = max_time
-        .into()
-        .unwrap_or(std::time::Duration::from_secs(10));
+    let max_time = max_time.into().unwrap_or(std::time::Duration::MAX);
 
     let max_iterations = 10_000;
 
