@@ -12,6 +12,8 @@ name = "{YEAR}_{DAY}"
 path = "src/p{YEAR}_{DAY}.rs"
 ```
 
+Then, if you also want benches, you need to modify `solutions/src/lib.rs` to export your solution, as well as `bencher/src/main.rs` to use and run it
+
 ## Usage
 To run a specific day, do
 ```console
@@ -61,15 +63,19 @@ fn main() {
 }
 ```
 
-## Benchmarks 2023 | Updated 2023, 1 december
+## Benchmarks 2023 | Updated 2023, 2 december
 ```
 == Benchmarks by Date and Part ==
-2023_01 part 1 .......... 114.975µs (ran 10000/10000)
-2023_01 part 2 .......... 769.382µs (ran 10000/10000)
+2023_01 part 1 .......... 118.471µs (ran 10000/10000)
+2023_01 part 2 .......... 841.055µs (ran 10000/10000)
+2023_02 part 1 .......... 91.341µs (ran 10000/10000)
+2023_02 part 2 .......... 89.408µs (ran 10000/10000)
 
 == Benchmarks by Speed ==
-2023_01 part 1 .......... 114.975µs (ran 10000/10000)
-2023_01 part 2 .......... 769.382µs (ran 10000/10000)
+2023_02 part 2 .......... 89.408µs (ran 10000/10000)
+2023_02 part 1 .......... 91.341µs (ran 10000/10000)
+2023_01 part 1 .......... 118.471µs (ran 10000/10000)
+2023_01 part 2 .......... 841.055µs (ran 10000/10000)
 ```
 
 ## Benchmarks 2022 | Updated 2023, 1 december
