@@ -7,6 +7,8 @@ members = [
 
 default-members = ["solutions"]
 
+resolver = "2"
+
 [workspace.dependencies]
 utils = { path = "utils" }
 solutions = { path = "solutions" }

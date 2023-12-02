@@ -82,5 +82,5 @@ fn run_2() {
 
 fn main() {
     run_1();
-    // run_2();
+    run_2();
 }

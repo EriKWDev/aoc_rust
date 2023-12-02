@@ -7,6 +7,14 @@ pub use std::{
 pub type Date = (usize, usize);
 pub type Input = String;
 
+#[rustfmt::skip]
+pub fn char_to_n(c: char) -> usize {
+    match c { 
+        '0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9,
+        _ => unreachable!(),
+    }
+}
+
 pub fn get_input(date: Date, suffix: &str) -> Option<Input> {
     let (year, day) = date;
 

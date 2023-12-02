@@ -78,8 +78,8 @@ fn main() {
 
     let mut results = vec![];
 
-    bench_2022(&mut results, max_time);
-    // bench_2023(&mut results, max_time);
+    // bench_2022(&mut results, max_time);
+    bench_2023(&mut results, max_time);
 
     println!("\n\n== Benchmarks by Date and Part ==");
     utils::summarize_results(&results);
