@@ -48,14 +48,12 @@ fn decrypt_file(nums: &[i64], n: usize, decryption: i64) -> i64 {
 pub fn part_1(input: utils::Input) -> String {
     let data = parse_data(input);
     let result = decrypt_file(&data, 1, 1);
-
     format!("{}", result)
 }
 
 pub fn part_2(input: utils::Input) -> String {
     let data = parse_data(input);
     let result = decrypt_file(&data, 10, 811589153);
-
     format!("{}", result)
 }
 
