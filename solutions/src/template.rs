@@ -2,13 +2,14 @@
 
 use utils::*;
 
-pub type Data = ();
-pub const DATE: utils::Date = (2023, 3);
+pub type Data = Vec<String>;
+pub const DATE: utils::Date = (2023, 6);
 
 pub fn parse_data(input: utils::Input) -> Data {
-    // input.lines().map(|line| line).collect::<Vec<_>>()
-
-    todo!()
+    input
+        .lines()
+        .map(|line| line.to_string())
+        .collect::<Vec<_>>()
 }
 
 pub fn part_1(input: utils::Input) -> String {
