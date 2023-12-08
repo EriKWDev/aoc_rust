@@ -23,18 +23,6 @@ pub fn get_input(date: Date, suffix: &str) -> Option<Input> {
     read_to_string(&path).ok()
 }
 
-pub fn input_to_string(input: Input) -> String {
-    let mut buf = String::new();
-
-    input.lines().for_each(|line| {
-        let line = line.trim();
-        buf.push_str(&line);
-        buf.push('\n');
-    });
-
-    buf
-}
-
 pub fn run<F, D>(part_function: F, part: usize, date: Date) -> D
 where
     F: Fn(Input) -> D,
@@ -188,4 +176,33 @@ where
     }
 
     all_correct
+}
+
+#[inline]
+pub const fn gcd(a: usize, b: usize) -> usize {
+    if b == 0 {
+        a
+    } else {
+        gcd(b, a % b)
+    }
+}
+
+#[inline]
+pub const fn lcm(a: usize, b: usize) -> usize {
+    if a == 0 || b == 0 {
+        0
+    } else {
+        (a * b) / gcd(a, b)
+    }
+}
+
+#[inline]
+pub fn lcm_of_slice(numbers: &[usize]) -> usize {
+    let mut result = numbers[0];
+
+    for &num in numbers.iter().skip(1) {
+        result = lcm(result, num);
+    }
+
+    result
 }
