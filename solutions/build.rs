@@ -5,9 +5,7 @@ const SECRET: &str = include_str!("SECRET");
 
 fn main() {
     let now = chrono::Utc::now().date_naive();
-
     let (year, day) = (now.year(), now.day());
-    let day = 09;
 
     let input_folder = format!("input");
     let date_folder = format!("{:04}_{:02}", year, day);

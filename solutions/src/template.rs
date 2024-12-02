@@ -3,7 +3,7 @@
 use utils::*;
 
 pub type Data = Vec<String>;
-pub const DATE: utils::Date = (2023, 12);
+pub const DATE: utils::Date = (2024, 01);
 
 pub fn parse_data(input: utils::Input) -> Data {
     input

@@ -29,7 +29,8 @@ pub fn part_2(input: utils::Input) -> String {
 fn run_1() {
     #[rustfmt::skip]
     let tests_1 = [
-        (1, Some("1")),
+        (1, Some("4")),
+        (2, Some("8")),
     ];
 
     let all_correct_1 = utils::test(part_1, DATE, 1, &tests_1);
