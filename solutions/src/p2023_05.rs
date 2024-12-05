@@ -88,9 +88,7 @@ pub fn part_2(input: utils::Input) -> String {
     for ab in pre_nums.chunks_exact(2) {
         let &[a, b] = ab else { panic!() };
 
-        for i in a..=a + b {
-            nums.push(i);
-        }
+        nums.push((a, b));
     }
 
     let mut maps = vec![];
@@ -127,23 +125,39 @@ pub fn part_2(input: utils::Input) -> String {
     while let Some(map) = maps.pop() {
         new_nums.clear();
 
-        'outer: for num in nums.drain(..) {
+        'outer: while let Some((num_start, num_range)) = nums.pop() {
+            let num_end = num_start + num_range;
+
             for &(d_start, source_start, range) in &map {
-                if num >= source_start && num <= source_start + range {
-                    let d = num - source_start;
-                    new_nums.push(d + d_start);
+                let source_end = source_start + range;
+
+                if num_start >= source_start && num_end <= source_end {
+                    // fully contained
+                    let d = num_start - source_start;
+                    new_nums.push((d_start + d, num_range));
+                    continue 'outer;
+                } else if num_start >= source_start && num_end > source_end {
+                    // at start but doesn't fit entirely
+
+                    let d = num_start - source_start;
+                    let d2 = num_end - source_end; // how many fit
+                    assert!(d2 < num_range);
+                    let d3 = num_range - d2; // remaining
+
+                    new_nums.push((d_start + d, d2));
+                    nums.push((num_start + d2, d3));
                     continue 'outer;
                 }
             }
 
-            new_nums.push(num);
+            // not in any range, bring over as is
+            new_nums.push((num_start, num_range));
         }
 
         nums.append(&mut new_nums);
     }
 
-    let mut result = nums.into_iter().min().unwrap();
-
+    let mut result = nums.into_iter().map(|(a, _)| a).min().unwrap();
     format!("{}", result)
 }
 
