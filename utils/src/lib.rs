@@ -7,6 +7,14 @@ pub use std::{
 pub type Date = (usize, usize);
 pub type Input = String;
 
+pub fn date_from_file_name(name: &str) -> Date {
+    let (_p, rest) = name.split_once("p").unwrap();
+    let (year, rest) = rest.split_once("_").unwrap();
+    let (day, _rest) = rest.split_once(".").unwrap();
+
+    (year.parse().unwrap(), day.parse().unwrap())
+}
+
 #[rustfmt::skip]
 pub fn char_to_n(c: char) -> usize {
     match c { 
@@ -141,7 +149,7 @@ where
             let answer_text = format!("{}", answer);
 
             print!(
-                " Test {}/{} (test_{:02}):  {}",
+                "[ {:02}/{:02} (test_{:02}) ] output: {}",
                 test_index + 1,
                 tests.len(),
                 test_id,
@@ -156,7 +164,7 @@ where
                 } else {
                     format!("NO, should be: {}", expected)
                 };
-                print!("  Correct: {}", is_correct_text);
+                print!("\t\tCorrect: {}", is_correct_text);
 
                 if !is_correct {
                     all_correct = false;

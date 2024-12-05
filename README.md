@@ -63,6 +63,21 @@ fn main() {
 }
 ```
 
+## Benchmarks 2024 | Updated 2024, december 5
+```
+== Benchmarks by Date and Part ==
+2024_01 part 1 .......... 130.714µs (ran 10000/10000)
+2024_01 part 2 .......... 157.652µs (ran 10000/10000)
+2024_02 part 1 .......... 243µs (ran 10000/10000)
+2024_02 part 2 .......... 308.167µs (ran 10000/10000)
+
+== Benchmarks by Speed ==
+2024_01 part 1 .......... 130.714µs (ran 10000/10000)
+2024_01 part 2 .......... 157.652µs (ran 10000/10000)
+2024_02 part 1 .......... 243µs (ran 10000/10000)
+2024_02 part 2 .......... 308.167µs (ran 10000/10000)
+```
+
 ## Benchmarks 2023 | Updated 2023, december 8
 ```
 == Benchmarks by Date and Part ==
