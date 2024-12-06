@@ -7,6 +7,7 @@ edition = "2021"
 utils = { workspace = true }
 serde = { version="*", optional=true }
 serde_json = { version="*", optional=true }
+regex = { version="*", optional=true }
 
 [build-dependencies]
 chrono = { version = "0.4.23", default-features = false, features = ["clock"]}
@@ -15,7 +16,9 @@ ureq = { version = "*" }
 [features]
 default = []
 serde = ["dep:serde", "dep:serde_json"]
-all = ["serde"]
+regex = ["dep:regex"]
+
+all = ["serde", "regex"]
 
 [[bin]]
 name = "template"
@@ -155,3 +158,8 @@ path = "src/p2024_01.rs"
 [[bin]]
 name = "2024_02"
 path = "src/p2024_02.rs"
+
+[[bin]]
+name = "2024_03"
+path = "src/p2024_03.rs"
+required-features = ["regex"]

@@ -25,7 +25,7 @@ pub fn part_2(input: utils::Input) -> String {
     format!("{}", result)
 }
 
-fn run_1(date: utils::Date) {
+pub fn run_1(date: utils::Date) {
     #[rustfmt::skip]
     let tests_1 = [
         (1, Some("ANWER_PART_1")),
@@ -37,7 +37,7 @@ fn run_1(date: utils::Date) {
     }
 }
 
-fn run_2(date: utils::Date) {
+pub fn run_2(date: utils::Date) {
     #[rustfmt::skip]
     let tests_2 = [
         (1, Some("ANSWER_PART_2")),
@@ -49,8 +49,12 @@ fn run_2(date: utils::Date) {
     }
 }
 
+pub fn date() -> utils::Date {
+    utils::date_from_file_name(file!())
+}
+
 fn main() {
-    let date = utils::date_from_file_name(file!());
+    let date = date();
     run_1(date);
     // run_2(date);
 }
