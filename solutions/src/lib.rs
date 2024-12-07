@@ -46,3 +46,4 @@ pub mod p2024_02;
 #[cfg(feature = "regex")]
 pub mod p2024_03;
 pub mod p2024_04;
+pub mod p2024_05;
