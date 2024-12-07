@@ -4,6 +4,43 @@ pub use std::{
     io::{BufRead, BufReader},
 };
 
+#[inline]
+pub const fn gcd(a: usize, b: usize) -> usize {
+    if b == 0 {
+        a
+    } else {
+        gcd(b, a % b)
+    }
+}
+
+#[inline]
+pub const fn lcm(a: usize, b: usize) -> usize {
+    if a == 0 || b == 0 {
+        0
+    } else {
+        (a * b) / gcd(a, b)
+    }
+}
+
+#[inline]
+pub fn lcm_of_slice(numbers: &[usize]) -> usize {
+    let mut result = numbers[0];
+
+    for &num in numbers.iter().skip(1) {
+        result = lcm(result, num);
+    }
+
+    result
+}
+
+#[rustfmt::skip]
+pub fn char_to_n(c: char) -> usize {
+    match c { 
+        '0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9,
+        _ => unreachable!(),
+    }
+}
+
 pub type Date = (usize, usize);
 pub type Input = String;
 
@@ -13,14 +50,6 @@ pub fn date_from_file_name(name: &str) -> Date {
     let (day, _rest) = rest.split_once(".").unwrap();
 
     (year.parse().unwrap(), day.parse().unwrap())
-}
-
-#[rustfmt::skip]
-pub fn char_to_n(c: char) -> usize {
-    match c { 
-        '0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9,
-        _ => unreachable!(),
-    }
 }
 
 pub fn get_input(date: Date, suffix: &str) -> Option<Input> {
@@ -184,33 +213,4 @@ where
     }
 
     all_correct
-}
-
-#[inline]
-pub const fn gcd(a: usize, b: usize) -> usize {
-    if b == 0 {
-        a
-    } else {
-        gcd(b, a % b)
-    }
-}
-
-#[inline]
-pub const fn lcm(a: usize, b: usize) -> usize {
-    if a == 0 || b == 0 {
-        0
-    } else {
-        (a * b) / gcd(a, b)
-    }
-}
-
-#[inline]
-pub fn lcm_of_slice(numbers: &[usize]) -> usize {
-    let mut result = numbers[0];
-
-    for &num in numbers.iter().skip(1) {
-        result = lcm(result, num);
-    }
-
-    result
 }

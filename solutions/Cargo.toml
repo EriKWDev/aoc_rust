@@ -163,3 +163,7 @@ path = "src/p2024_02.rs"
 name = "2024_03"
 path = "src/p2024_03.rs"
 required-features = ["regex"]
+
+[[bin]]
+name = "2024_04"
+path = "src/p2024_04.rs"
