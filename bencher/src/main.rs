@@ -49,6 +49,11 @@ pub fn bench_2024(output: &mut Vec<utils::BenchResult>, max_time: Option<std::ti
         output.push(utils::bench(part_1, 1, date(), max_time));
         output.push(utils::bench(part_2, 2, date(), max_time));
     }
+
+    {   pub use solutions::p2024_07::*;
+        output.push(utils::bench(part_1, 1, date(), max_time));
+        output.push(utils::bench(part_2, 2, date(), max_time));
+    }
 }
 
 #[rustfmt::skip]
