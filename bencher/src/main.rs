@@ -6,7 +6,8 @@ fn main() {
 
     // bench_2022(&mut results, max_time);
     // bench_2023(&mut results, max_time);
-    bench_2024(&mut results, max_time);
+    // bench_2024(&mut results, max_time);
+    bench_2025(&mut results, max_time);
 
     println!("\n\n== Benchmarks by Date and Part ==");
     utils::summarize_results(&results);
@@ -16,6 +17,14 @@ fn main() {
     println!("\n== Benchmarks by Speed ==");
     utils::summarize_results(&results);
     println!("");
+}
+
+#[rustfmt::skip]
+pub fn bench_2025(output: &mut Vec<utils::BenchResult>, max_time: Option<std::time::Duration>) {
+    {   pub use solutions::p2025_01::*;
+        output.push(utils::bench(part_1, 1, date(), max_time));
+        output.push(utils::bench(part_2, 2, date(), max_time));
+    }
 }
 
 #[rustfmt::skip]
