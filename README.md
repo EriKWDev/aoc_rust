@@ -35,7 +35,11 @@ These can then be automatically tested before running on the real input as such:
 
 ```rust
 type Data = /* ... */;
+
+fn parse_data(input: utils::Input) -> Data { /* ... */ }
+
 fn part_1(input: Data) -> String { /* ... */ }
+fn part_2(input: Data) -> String { /* ... */ }
 
 fn run_1() {
     /*
@@ -58,9 +62,32 @@ fn run_1() {
     }
 }
 
+fn run_2() { /* ... */ }
+
+
 fn main() {
     run_1();
+    // run_2();
 }
+```
+
+## Benchmarks 2025 | Updated 2025, december 4
+```
+== Benchmarks by Date and Part ==
+2025_01 part 1 .......... 216.543µs (ran 10000/10000)
+2025_01 part 2 .......... 2.481483ms (ran 4030/10000)
+2025_02 part 1 .......... 42.594708ms (ran 235/10000)
+2025_02 part 2 .......... 65.445478ms (ran 153/10000)
+2025_03 part 1 .......... 880.875µs (ran 10000/10000)
+2025_03 part 2 .......... 159.94µs (ran 10000/10000)
+
+== Benchmarks by Speed ==
+2025_03 part 2 .......... 159.94µs (ran 10000/10000)
+2025_01 part 1 .......... 216.543µs (ran 10000/10000)
+2025_03 part 1 .......... 880.875µs (ran 10000/10000)
+2025_01 part 2 .......... 2.481483ms (ran 4030/10000)
+2025_02 part 1 .......... 42.594708ms (ran 235/10000)
+2025_02 part 2 .......... 65.445478ms (ran 153/10000)
 ```
 
 ## Benchmarks 2024 | Updated 2024, december 7

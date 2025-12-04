@@ -7,6 +7,8 @@ fn main() {
     let now = chrono::Utc::now().date_naive();
     let (year, day) = (now.year(), now.day());
 
+    // let (year, day) = (2025, 03);
+
     let input_folder = format!("input");
     let date_folder = format!("{:04}_{:02}", year, day);
     let input_date_folder = format!("{}/{}", input_folder, date_folder);

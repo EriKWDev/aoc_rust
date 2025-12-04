@@ -204,7 +204,7 @@ where
             println!("");
         } else {
             print!(
-                " Test {}/{} (test_{:02}):  Could not get",
+                " Test {}/{} (test_{:02}):  ERROR: Could not get input for test",
                 test_index + 1,
                 tests.len(),
                 test_id,
