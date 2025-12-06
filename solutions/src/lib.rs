@@ -56,3 +56,6 @@ pub mod p2024_07;
 pub mod p2025_01;
 pub mod p2025_02;
 pub mod p2025_03;
+pub mod p2025_04;
+pub mod p2025_05;
+pub mod p2025_06;

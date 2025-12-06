@@ -155,6 +155,26 @@ pub fn summarize_results(tests: &[BenchResult]) {
     });
 }
 
+static IS_TEST: core::sync::atomic::AtomicBool = core::sync::atomic::AtomicBool::new(false);
+pub fn is_test() -> bool {
+    IS_TEST.load(core::sync::atomic::Ordering::Relaxed)
+}
+
+pub struct Defer<F: FnOnce() -> ()>(core::mem::ManuallyDrop<F>);
+impl<F: FnOnce() -> ()> Drop for Defer<F> {
+    #[inline(always)]
+    fn drop(&mut self) {
+        (unsafe { core::mem::ManuallyDrop::take(&mut self.0) })();
+    }
+}
+macro_rules! defer {
+    ($($f:tt)*) => {{
+        $crate::Defer(core::mem::ManuallyDrop::new(|| {
+            $($f)*
+        }))
+    }};
+}
+
 pub fn test<F, D>(
     part_function: F,
     date: Date,
@@ -165,6 +185,11 @@ where
     F: Fn(Input) -> D,
     D: std::fmt::Display + std::cmp::Eq,
 {
+    IS_TEST.store(true, core::sync::atomic::Ordering::Relaxed);
+    defer! {
+        IS_TEST.store(false, core::sync::atomic::Ordering::Relaxed)
+    };
+
     let mut all_correct = true;
 
     println!("== Running Tests for Part {} ==", part);
