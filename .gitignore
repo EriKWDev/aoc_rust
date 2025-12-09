@@ -4,3 +4,4 @@ solutions/SECRET
 flamegraph.svg
 perf.data
 perf.data.old
+*.bin

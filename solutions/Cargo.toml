@@ -8,6 +8,7 @@ utils = { workspace = true }
 serde = { version="*", optional=true }
 serde_json = { version="*", optional=true }
 regex = { version="*", optional=true }
+rayon = { version="*", optional=true }
 
 [build-dependencies]
 chrono = { version = "0.4.23", default-features = false, features = ["clock"]}
@@ -17,8 +18,9 @@ ureq = { version = "*" }
 default = []
 serde = ["dep:serde", "dep:serde_json"]
 regex = ["dep:regex"]
-
-all = ["serde", "regex"]
+rayon = ["dep:rayon"]
+all = ["serde", "regex", "rayon"]
+# all = ["serde"]
 
 [[bin]]
 name = "template"
@@ -205,3 +207,16 @@ path = "src/p2025_05.rs"
 [[bin]]
 name = "2025_06"
 path = "src/p2025_06.rs"
+
+[[bin]]
+name = "2025_07"
+path = "src/p2025_07.rs"
+
+[[bin]]
+name = "2025_08"
+path = "src/p2025_08.rs"
+
+[[bin]]
+name = "2025_09"
+path = "src/p2025_09.rs"
+
